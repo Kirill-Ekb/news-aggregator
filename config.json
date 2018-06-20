@@ -1,0 +1,10 @@
+{
+    "Webport": ":8080",
+    "FileNameDB": "news.db",
+    "UpdateMinutes": 1,
+    "RSS": [
+        "https://www.e1.ru/news/rdf/full.xml",
+        "https://meduza.io/rss/all",
+        "http://static.feed.rbc.ru/rbc/logical/footer/news.rss"
+    ]
+}

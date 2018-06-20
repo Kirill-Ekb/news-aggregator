@@ -1,0 +1,62 @@
+{{define "body"}}
+<h2 class="uk-heading-divider uk-text-center"><a href="/">Новости</a></h2>
+<div class="uk-child-width-1-2 uk-text-center" uk-grid>
+    <div>
+        <input type="text" class="uk-input" placeholder="Быстрый фильтр" id="filter">
+    </div>
+    <div>
+        <form class="uk-text-center" id="formSearch" uk-grid>
+            <div class="uk-width-expand">
+                <input type="text" class="uk-input" placeholder="Поиск" id="inputSearch">
+            </div>
+            <div>
+                <input type="submit" class="uk-button uk-button-primary" value="Найти">
+            </div>
+        </form>
+    </div>
+</div>
+<table class="uk-table uk-table-hover uk-table-striped uk-table-small uk-table-middle" id="dataTable">
+    <tbody>
+        {{range .News}}
+        <tr>
+            <td class="uk-text-center">{{.PubDate.Format "02.01.2006"}}<br>{{.PubDate.Format "15:04"}}</td>
+            <td><img src="{{.LogoLink}}"></td>
+            <td>{{.Title}}</td>
+            <td class="uk-text-right"><a class="uk-button uk-button-primary" href="{{.Link}}" target="_blank">Открыть</a></td>
+        </tr>
+        {{end}}
+    </tbody>
+</table>
+<script>
+    let filter = document.getElementById("filter");
+    filter.oninput = () => {
+        let table = document.getElementById("dataTable");
+        if (filter.length == 0) {
+            for (let row = 1; row < table.rows.length; row++) {
+                table.rows[row].style.display = '';
+            }
+            return;
+        }
+        for (let row = 1; row < table.rows.length; row++) {
+            let show = false;
+            for (let cel = 0; cel < table.rows[row].cells.length; cel++) {
+                let cell = table.rows[row].cells[cel].innerText;
+                if (cell.toLowerCase().indexOf(filter.value.toLowerCase()) >= 0) {
+                    show = true;
+                    break;
+                }
+            }
+            table.rows[row].style.display = show ? '' : 'none';
+        }
+    }
+
+    let formSearch = document.getElementById("formSearch");
+    formSearch.onsubmit = (event) => {
+        event.preventDefault();
+        let inpSearch = document.getElementById("inputSearch")
+        window.location.href = "/"+inpSearch.value
+    }
+
+
+</script>
+{{end}}
